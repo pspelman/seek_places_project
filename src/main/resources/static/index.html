@@ -1,29 +1,125 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>React + Spring + Seek</title>
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport"
+	          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+	    <title>React + Spring + Seek</title>
+		    <style>
+		      /* Always set the map height explicitly to define the size of the div
+		       * element that contains the map. */
+		      #map {
+		        height: 75%;
+		      }
+		      /* Optional: Makes the sample page fill the window. */
+		      html, body {
+		        height: 100%;
+		        margin: 0;
+		        padding: 0;
+		      }
+		    </style>
+	
+	
+	    <div id='root'></div>
+	
+	    <script src="https://fb.me/react-15.0.1.js"></script>
+	    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+	
+	    <script type="text/babel"></script>
+	
+	
+	
+	</head>
+	<body>
+		<script>
+		  window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '2156847117878192',
+		      cookie     : true,
+		      xfbml      : true,
+		      version    : 'v3.0'
+		    });
+		      
+		    FB.getLoginStatus(function(response) {
+		        statusChangeCallback(response);
+		    });  
+		      
+		  };
+		
+		  (function(d, s, id){
+		     var js, fjs = d.getElementsByTagName(s)[0];
+		     if (d.getElementById(id)) {return;}
+		     js = d.createElement(s); js.id = id;
+		     js.src = "https://connect.facebook.net/en_US/sdk.js";
+		     fjs.parentNode.insertBefore(js, fjs);
+		   }(document, 'script', 'facebook-jssdk'));
+		  
+		  function statusChangeCallback(response){
+			  if(response.status === 'connected'){
+				  console.log('Logged in and authenticated');
+			  }else{
+				  console.log('Not authenticated');
+			  }
+		  }
+		  
+		  function checkLoginState() {
+			  FB.getLoginStatus(function(response) {
+			    statusChangeCallback(response);
+			  });
+			}
+		  
+		  function logout(){
+			  FB.logout(function(response){
+				  /* This will logout a user. */
+			  });
+		  }
+		</script>
+		
+		    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li>
+            <a class="nav-link" href="loggedInPage.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+         </ul>
+         <ul class="nav nvabar-nav navbar-right">
+         	<li>
+         		<a href="#" onclick="logout()">Logout</a>
+         	</li>	
+         	<li>
+	          	<fb:login-button 
+	          		id="fb-btn"
+			  		scope="public_profile,email"
+			  		onlogin="checkLoginState();">
+				</fb:login-button>
+         	</li>
+        </ul>
+      </div>
+    </nav>
+		<h1>main seek page</h1>
+		<div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 47.6098114, lng: -122.19656910000003},
+          zoom: 8
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD86xjRo8z7-xUgW2HgsVJv6-6MWhDOWz4&callback=initMap"
+    async defer></script>
 
-
-    <div id='root'></div>
-
-    <script src="https://fb.me/react-15.0.1.js"></script>
-    <script src="https://fb.me/react-dom-15.0.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-
-    <script type="text/babel"></script>
-
-
-
-</head>
-<body>
-<h1>main seek page</h1>
-
-</body>
+	
+	</body>
 </html>
 
 

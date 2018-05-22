@@ -19,13 +19,9 @@ public class User {
 
 
     //next is a username field (must be called "username" ) - it cannot be null
-    @NotNull
-    @Size(min = 3, message = "Username must be at least 3 characters long")
     private String username;
 
     //next is an email field. It is required
-    @NotNull
-    @Size(min = 3, message = "Email must be at least 3 characters long")
     private String email;
 
 
@@ -35,8 +31,7 @@ public class User {
     private String name;
 
 
-    //Need a password, at least 5 characters
-    @Size(min = 5, message = "Password must be at least 5 characters")
+
     private String password;
 
     //set a confirmation field for the password that won't be stored in the db
