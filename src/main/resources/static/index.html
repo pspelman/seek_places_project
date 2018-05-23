@@ -60,8 +60,10 @@
 		  function statusChangeCallback(response){
 			  if(response.status === 'connected'){
 				  console.log('Logged in and authenticated');
+				  setElements(true);
 			  }else{
 				  console.log('Not authenticated');
+				  setElements(false);
 			  }
 		  }
 		  
@@ -73,8 +75,20 @@
 		  
 		  function logout(){
 			  FB.logout(function(response){
-				  /* This will logout a user. */
+				  setElements(false);
 			  });
+		  }
+		  
+		  function setElements(isLoggedIn){
+			  if(isLoggedIn){
+				  document.getElementById('fb-btn').style.display = 'none';
+				  document.getElementById('map').style.display = 'block';
+				  document.getElementById('logout-btn').style.display = 'block';
+			  }else{
+				  document.getElementById('fb-btn').style.display = 'block';
+				  document.getElementById('map').style.display = 'none';
+				  document.getElementById('logout-btn').style.display = 'none';
+			  }
 		  }
 		</script>
 		
@@ -92,7 +106,7 @@
          </ul>
          <ul class="nav nvabar-nav navbar-right">
          	<li>
-         		<a href="#" onclick="logout()">Logout</a>
+         		<a href="#" onclick="logout()" id="logout-btn">Logout</a>
          	</li>	
          	<li>
 	          	<fb:login-button 
@@ -107,12 +121,41 @@
 		<h1>main seek page</h1>
 		<div id="map"></div>
     <script>
+      var places = [{
+			    	  lat: -33.861034,
+			    	  lng: 151.171936,
+			    	  name: 'Love.Fish',
+			      },{
+			    	  lat: -33.898113,
+			    	  lng: 151.174469,
+			    	  name: 'Young Henrys',
+			      },{
+			    	  lat: -33.840282,
+			    	  lng: 151.207474,
+			    	  name: 'Hunter Gatherer',
+			      },{
+			    	  lat: -33.910751,
+			    	  lng: 151.194168,
+			    	  name: 'The Potting Shed',
+			      }]
       var map;
       function initMap() {
+    	  var uluru = {lat: 47.6098114, lng: -122.19656910000003};
+    	  var notuluru = {lat: 47.615544, lng: -122.203845}; 
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 47.6098114, lng: -122.19656910000003},
           zoom: 8
         });
+        
+        places.forEach(function(element){
+        	var location = {lat: element.lat, lng: element.lng};
+        	var custommarker = new google.maps.Marker({position: location, map:map, label: element.name});
+        	console.log(custommarker);
+        	console.log(location);
+        	console.log(element);
+        })
+        var marker = new google.maps.Marker({position: uluru, map:map, label: 'Coding Dojo'});
+        var marker1 = new google.maps.Marker({position: notuluru, map:map, label: 'Bellevue Square'});
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD86xjRo8z7-xUgW2HgsVJv6-6MWhDOWz4&callback=initMap"
