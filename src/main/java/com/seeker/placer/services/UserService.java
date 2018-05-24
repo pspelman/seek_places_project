@@ -1,10 +1,25 @@
-//package com.seeker.placer.services;
-//
-//
-//import org.springframework.stereotype.Service;
-//
-//@Service
-//public class UserService {
+package com.seeker.placer.services;
+
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.seeker.placer.models.Place;
+import com.seeker.placer.repositories.PlaceRepository;
+
+@Service
+public class UserService {
+	
+	private PlaceRepository placeRepository;
+	
+	public UserService(PlaceRepository placeRepository) {
+		this.placeRepository = placeRepository;
+	}
+	
+	public List<Place> allPlaces(){
+		return placeRepository.findAll();
+	}
 //    private UserRepository userRepository;
 //    private RoleRepository roleRepository;
 //    private RatingRepository ratingRepository;
@@ -39,4 +54,4 @@
 //        return userRepository.findByUsername(username);
 //    }
 //
-//}
+}

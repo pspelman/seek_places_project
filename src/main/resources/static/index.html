@@ -19,14 +19,22 @@
 		        margin: 0;
 		        padding: 0;
 		      }
+		      
+		      a{
+		      	color: white;
+		      	padding-left: 5px;
+		      	text-decoration: underline;
+		      }
 		    </style>
 	
 	
 	    <div id='root'></div>
-	
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	    <script src="https://fb.me/react-15.0.1.js"></script>
 	    <script src="https://fb.me/react-dom-15.0.1.js"></script>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+	    
 	
 	    <script type="text/babel"></script>
 	
@@ -84,11 +92,33 @@
 				  document.getElementById('fb-btn').style.display = 'none';
 				  document.getElementById('map').style.display = 'block';
 				  document.getElementById('logout-btn').style.display = 'block';
+				  document.getElementById('places-btn').style.display = 'block';
+				  document.getElementById('allPlacesBTN').style.display = 'block';
+				  document.getElementById('headerHelper').style.display = 'none';
+				  document.getElementById('mapHelper').style.display = 'block';
+				  actuallyGetData();
 			  }else{
 				  document.getElementById('fb-btn').style.display = 'block';
 				  document.getElementById('map').style.display = 'none';
 				  document.getElementById('logout-btn').style.display = 'none';
+				  document.getElementById('places-btn').style.display = 'none';
+				  document.getElementById('allPlacesBTN').style.display = 'none';
+				  document.getElementById('headerHelper').style.display = 'block';
+				  document.getElementById('mapHelper').style.display = 'none';
 			  }
+		  }
+		  
+		  function actuallyGetData(){
+			  
+		  }
+		  
+		  function getData(){
+			  var xhttp = new XMLHttpRequest();
+			  xhttp.open("GET", "https://localhost:8080/getPlaces", true);
+			  xhttp.setRequestHeader("Content-type", "application/json");
+			  xhttp.send();
+			  console.log(xhttp.responseText);
+			  var response = JSON.parse(xhttp.responseText);
 		  }
 		</script>
 		
@@ -100,11 +130,17 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
+            <li>
+         		<a href="#" onclick="" id="hidePlaces">Click for Museums</a>
+         	</li>
           <li>
-            <a class="nav-link" href="loggedInPage.html">Home <span class="sr-only">(current)</span></a>
-          </li>
+         		<a href="#" onclick="" id="allPlacesBTN">Click For Sports Stadiums</a>
+         	</li>
          </ul>
          <ul class="nav nvabar-nav navbar-right">
+         	<li>
+         		<a href="#" onclick="location.href='/getPlaces'" id="places-btn">Take a peak at our API!</a>
+         	</li>
          	<li>
          		<a href="#" onclick="logout()" id="logout-btn">Logout</a>
          	</li>	
@@ -118,26 +154,61 @@
         </ul>
       </div>
     </nav>
-		<h1>main seek page</h1>
+		<h1 id="headerHelper">Please Login To See Map Information!</h1>
+		<h5 id="mapHelper">
+			<li>Click above to build markers for specific categories</li>
+			<li>hover over those markers for more info</li>
+			<li>click the marker to hide the info!</li> 
+		</h5>
 		<div id="map"></div>
     <script>
-      var places = [{
-			    	  lat: -33.861034,
-			    	  lng: 151.171936,
-			    	  name: 'Love.Fish',
-			      },{
-			    	  lat: -33.898113,
-			    	  lng: 151.174469,
-			    	  name: 'Young Henrys',
-			      },{
-			    	  lat: -33.840282,
-			    	  lng: 151.207474,
-			    	  name: 'Hunter Gatherer',
-			      },{
-			    	  lat: -33.910751,
-			    	  lng: 151.194168,
-			    	  name: 'The Potting Shed',
-			      }]
+    $("#hidePlaces").click(function(){
+	      $.getJSON("https://localhost:8080/getPlaces", function(data){
+	    	  console.log(data);
+	          data.forEach(function(element){
+	        	if(element.type == "museum"){
+	        		console.log("This place is a museum!");
+	              	var location = {lat: element.lat, lng: element.lng};
+	              	var custommarker = new google.maps.Marker({position: location, map:map, label: element.name});
+	              	var infoWindow = new google.maps.InfoWindow({content:element.address});
+	              	custommarker.addListener('mouseover',function(){
+	              		infoWindow.open(map,custommarker);
+	              	})
+	              	custommarker.addListener('click',function(){
+	              		custommarker.setMap(null);
+	              	})
+	        	}
+	          	console.log(custommarker);
+	          	console.log(location);
+	          	console.log(element);
+	          })
+	      })	    	
+  });
+    
+    $("#allPlacesBTN").click(function(){
+	      $.getJSON("https://localhost:8080/getPlaces", function(data){
+	    	  console.log(data);
+	          data.forEach(function(element){
+	        	if(element.type == "stadium"){
+	        		console.log("This place is a stadium!");
+	              	var location = {lat: element.lat, lng: element.lng};
+	              	var custommarker = new google.maps.Marker({position: location, map:map, label: element.name});
+	              	var infoWindow = new google.maps.InfoWindow({content:element.address});
+	              	custommarker.addListener('mouseover',function(){
+	              		infoWindow.open(map,custommarker);
+	              	})
+	              	custommarker.addListener('click',function(){
+	              		custommarker.setMap(null);
+	              	})
+	        	}
+	          	console.log(custommarker);
+	          	console.log(location);
+	          	console.log(element);
+	          })
+	      })	    	
+    });
+    
+
       var map;
       function initMap() {
     	  var uluru = {lat: 47.6098114, lng: -122.19656910000003};
@@ -146,16 +217,6 @@
           center: {lat: 47.6098114, lng: -122.19656910000003},
           zoom: 8
         });
-        
-        places.forEach(function(element){
-        	var location = {lat: element.lat, lng: element.lng};
-        	var custommarker = new google.maps.Marker({position: location, map:map, label: element.name});
-        	console.log(custommarker);
-        	console.log(location);
-        	console.log(element);
-        })
-        var marker = new google.maps.Marker({position: uluru, map:map, label: 'Coding Dojo'});
-        var marker1 = new google.maps.Marker({position: notuluru, map:map, label: 'Bellevue Square'});
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD86xjRo8z7-xUgW2HgsVJv6-6MWhDOWz4&callback=initMap"
@@ -164,6 +225,4 @@
 	
 	</body>
 </html>
-
-
 
