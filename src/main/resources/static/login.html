@@ -14,15 +14,22 @@
             height: 75%;
         }
 
+        .abcRioButton {
+            border: 2px solid red;
+        }
+        .abcRioButtonLightBlue {
+            border: 2px solid red;
 
-        /* Optional: Makes the sample page fill the window. */
+        }
+            /* Optional: Makes the sample page fill the window. */
         html, body {
-            background-color: gray;
             height: 100%;
             margin: 0;
             padding: 0;
         }
     </style>
+
+
 
 
     <div id='root'></div>
@@ -64,13 +71,13 @@
             var imagurl = profile.getImageUrl();
             var name = profile.getName();
             var email = profile.getEmail();
-            // document.getElementById("google-login-img").src = imagurl;
-            // document.getElementById("name").innerHTML = name;
+            document.getElementById("google-login-img").src = imagurl;
+            document.getElementById("name").innerHTML = name;
             // document.getElementById("google-signin-element").style.display = "none";
             // document.getElementById('fb-login-btn').style.display = 'none';
             // document.getElementById("google-signout-btn").setAttribute('style', "visibility:show;");
 
-            document.getElementById("status").innerHTML = 'Logged in as ' + name;
+            document.getElementById("status").innerHTML = 'Welcome ' + name;
             // document.getElementById("status").innerHTML = 'Welcome ' + name + '!<a href="success.jsp?"+ email = ''+email+' ' & name = '+name+' / > Continue with Google login < /a></p > ';
 
         }
@@ -185,7 +192,7 @@
                     document.getElementById('fb-login-btn').style.display = 'none';
                     document.getElementById('fb-logout-btn').style.display = 'none';
                     document.getElementById('google-signin-element').style.display = 'none';
-                    document.getElementById('google-login-img').style.display = 'none';
+                    document.getElementById('google-login-img').style.display = 'inline';
                     document.getElementById('google-signout-btn').style.display = 'inline';
 
                 } else if (loggedIn.provider == "facebook") {
@@ -232,8 +239,8 @@
         <ul class="nav nvabar-nav navbar-right">
             <li>
                 <!--START Google AUTH-->
-                <div class="g-signin2" data-onsuccess="onGoogleSignIn" id="google-signin-element"></div>
-                <img id="google-login-img"><br>
+                <div class="g-signin2" data-onsuccess="onGoogleSignIn" style="{height: 24px; width: 93px; background-color: cornflowerblue}" id="google-signin-element"></div>
+                <img id="google-login-img" style="{height: 24px; width: 93px; background-color: cornflowerblue}"><br>
                 <p id="name"></p>
 
                 <div id="status">
