@@ -16,7 +16,7 @@ public class Place {
     
     private String name;
     
-    private String address;
+    private String information;
     
     private float lat;
     
@@ -44,12 +44,12 @@ public class Place {
 		this.name = name;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getInformation() {
+		return information;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setInformation(String information) {
+		this.information = information;
 	}
 
 	public float getLat() {

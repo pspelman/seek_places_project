@@ -131,10 +131,13 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li>
-         		<a href="#" onclick="" id="hidePlaces">Click for Museums</a>
+         		<a href="#" onclick="" id="barBtn">Click for Bars</a>
+         	</li>
+            <li>
+         		<a href="#" onclick="" id="museumBtn">Click for Museums</a>
          	</li>
           <li>
-         		<a href="#" onclick="" id="allPlacesBTN">Click For Sports Stadiums</a>
+         		<a href="#" onclick="" id="stadiumBtn">Click For Sports Stadiums</a>
          	</li>
          </ul>
          <ul class="nav nvabar-nav navbar-right">
@@ -162,7 +165,30 @@
 		</h5>
 		<div id="map"></div>
     <script>
-    $("#hidePlaces").click(function(){
+    $("#barBtn").click(function(){
+	      $.getJSON("https://localhost:8080/getPlaces", function(data){
+	    	  console.log(data);
+	          data.forEach(function(element){
+	        	if(element.type == "bar"){
+	        		console.log("This place is a bar!");
+	              	var location = {lat: element.lat, lng: element.lng};
+	              	var custommarker = new google.maps.Marker({position: location, map:map, label: element.name});
+	              	var infoWindow = new google.maps.InfoWindow({content:element.information});
+	              	custommarker.addListener('mouseover',function(){
+	              		infoWindow.open(map,custommarker);
+	              	})
+	              	custommarker.addListener('click',function(){
+	              		custommarker.setMap(null);
+	              	})
+	        	}
+	          	console.log(custommarker);
+	          	console.log(location);
+	          	console.log(element);
+	          })
+	      })	    	
+	});
+    
+    $("#museumBtn").click(function(){
 	      $.getJSON("https://localhost:8080/getPlaces", function(data){
 	    	  console.log(data);
 	          data.forEach(function(element){
@@ -170,7 +196,7 @@
 	        		console.log("This place is a museum!");
 	              	var location = {lat: element.lat, lng: element.lng};
 	              	var custommarker = new google.maps.Marker({position: location, map:map, label: element.name});
-	              	var infoWindow = new google.maps.InfoWindow({content:element.address});
+	              	var infoWindow = new google.maps.InfoWindow({content:element.information});
 	              	custommarker.addListener('mouseover',function(){
 	              		infoWindow.open(map,custommarker);
 	              	})
@@ -185,7 +211,7 @@
 	      })	    	
   });
     
-    $("#allPlacesBTN").click(function(){
+    $("#stadiumBtn").click(function(){
 	      $.getJSON("https://localhost:8080/getPlaces", function(data){
 	    	  console.log(data);
 	          data.forEach(function(element){
@@ -193,7 +219,7 @@
 	        		console.log("This place is a stadium!");
 	              	var location = {lat: element.lat, lng: element.lng};
 	              	var custommarker = new google.maps.Marker({position: location, map:map, label: element.name});
-	              	var infoWindow = new google.maps.InfoWindow({content:element.address});
+	              	var infoWindow = new google.maps.InfoWindow({content:element.information});
 	              	custommarker.addListener('mouseover',function(){
 	              		infoWindow.open(map,custommarker);
 	              	})
